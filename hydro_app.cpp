@@ -1,5 +1,8 @@
 // TODO: Create modules out of classes
 // TODO: Comment files
+// TODO: Implement all cursorM functionality in FlowList
+// TODO: Implement all FlowList functionality
+// TODO: Display an error msg if the input file cannot be read
 
 #include <stdlib.h>
 
@@ -15,37 +18,36 @@ int main() {
     hydro.displayHeader();
     numRecords = hydro.readData(flow_list);
 
-    cout<< "End program";
-    // int quit = 0;
+    int quit = 0;
 
-    // while (1) {
-    //     switch (menu()) {
-    //         case 1:
-    //             // call display function;
-    //             // call pressEnter;
-    //             break;
-    //         case 2:
-    //             // call addData function
-    //             // call pressEnter;
-    //             break;
-    //         case 3:
-    //             // call saveData function;
-    //             // call pressEnter;
-    //             break;
-    //         case 4:
-    //             // call removeData
-    //             // call presenter;
-    //             break;
-    //         case 5:
-    //             cout << "\nProgram terminated!\n\n";
-    //             quit = 1;
-    //             break;
-    //         default:
-    //             cout << "\nNot a valid input.\n";
-    //             // pressEnter();
-    //     }
-    //     if (quit == 1) break;
-    // }
+    while (1) {
+        switch (hydro.menu()) {
+            case 1:
+                hydro.display(flow_list);
+                hydro.pressEnter();
+                break;
+                //         case 2:
+                //             // call addData function
+                //             // call pressEnter;
+                //             break;
+                //         case 3:
+                //             // call saveData function;
+                //             // call pressEnter;
+                //             break;
+                //         case 4:
+                //             // call removeData
+                //             // call presenter;
+                //             break;
+            case 5:
+                cout << "\nProgram terminated!\n\n";
+                quit = 1;
+                break;
+            default:
+                cout << "\nNot a valid input.\n";
+                hydro.pressEnter();
+        }
+        if (quit == 1) break;
+    }
 
     // // Creating a copy of FlowList x called copy1
     // FlowList copy1;

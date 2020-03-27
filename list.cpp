@@ -7,6 +7,42 @@ using namespace std;
 // Default constructor that sets the head of the linked list to NULL (0).
 FlowList::FlowList() {
     headM = 0;
+    cursorM = 0;
+}
+
+// Gets the item for the Node that cursorM currently points to.
+const ListItem &FlowList::getItem() const {
+    return cursorM->item;
+}
+
+// Reset the cursorM node to the start of the list.
+void FlowList::reset() {
+    if (headM != 0) {
+        cursorM = headM;
+    } else {
+        cursorM = 0;
+    }
+}
+
+// Returns true if cursorM is not pointing to NULL (0).
+bool FlowList::isOn() const {
+    if (cursorM != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Returns the Node cursorM points to.
+const Node *FlowList::cursor() const {
+    return cursorM;
+}
+
+// Moves cursorM to the next Node (if cursorM is not null).
+void FlowList::forward() {
+    if (cursorM != 0) {
+        cursorM = cursorM->next;
+    }
 }
 
 // Insert Node Function
@@ -37,4 +73,19 @@ void FlowList::insert(const ListItem &itemA) {
         new_node->next = after;
         before->next = new_node;
     }
+}
+
+// Returns the number of nodes in the list.
+int FlowList::count() const {
+    int count = 0;
+    Node *current_node = headM;
+
+    // Iterates through each node until the node is NULL (0), which
+    // means that the end of the list has been reached.
+    while (current_node != 0) {
+        count++;
+        current_node = current_node->next;
+    }
+
+    return count;
 }

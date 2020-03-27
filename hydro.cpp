@@ -14,8 +14,7 @@ void Hydro::displayHeader() {
     cout << "Produced by: Ryan Lisowski" << endl
          << endl;
 
-    cout << "<<< Press Enter to Continue >>>";
-    cin.ignore();
+    pressEnter();
 }
 
 // Reads the flow data in from an external file.
@@ -44,5 +43,40 @@ int Hydro::readData(FlowList& flow_list) {
         flow = -1.0;
     }
 
-    return 1;
+    return flow_list.count();
+}
+
+// Display the user interface (menu) to the user.
+int Hydro::menu() {
+    int selection;
+
+    cout << "\n\nPlease select one of the following options:" << endl;
+    cout << "   1. Display the flow list, along with average and median values." << endl;
+    cout << "   2. Add Data." << endl;
+    cout << "   3. Save data into the file." << endl;
+    cout << "   4. Remove data." << endl;
+    cout << "   5. Quit." << endl;
+    cout << "Enter your choice (1, 2, 3, 4, or 5): ";
+    cin >> selection;
+    cin.ignore();
+
+    return selection;
+}
+
+// Displays the flow data to the user.
+void Hydro::display(FlowList& flow_list) {
+    cout << "Year"
+         << "\t\tFlow" << endl;
+
+    flow_list.reset();
+    while (flow_list.isOn() == true) {
+        cout << flow_list.getItem().year << "\t\t" << flow_list.getItem().flow << endl;
+        flow_list.forward();
+    }
+}
+
+// Prompts the user to press enter to continue.
+void Hydro::pressEnter() {
+    cout << "<<< Press Enter to Continue >>>";
+    cin.ignore();
 }
