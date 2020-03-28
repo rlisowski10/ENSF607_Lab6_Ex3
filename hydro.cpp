@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 using namespace std;
 #include "Hydro.h"
@@ -63,16 +64,90 @@ int Hydro::menu() {
     return selection;
 }
 
-// Displays the flow data to the user.
+// Displays the flow data and statistics to the user.
 void Hydro::display(FlowList& flow_list) {
-    cout << "Year"
-         << "\t\tFlow" << endl;
+    cout << "\nYear"
+         << "\t\tFlow (in billion cubic meters)" << endl;
 
     flow_list.reset();
     while (flow_list.isOn() == true) {
         cout << flow_list.getItem().year << "\t\t" << flow_list.getItem().flow << endl;
         flow_list.forward();
     }
+
+    //Output the flow statistics.
+    flow_list.reset();
+    if (flow_list.isOn() == true) {
+        cout << "\nThe annual average flow is: " << fixed
+             << setprecision(2) << average(flow_list)
+             << " million cubic meters." << endl;
+        cout << "The median annual flow is: " << fixed
+             << setprecision(2) << median(flow_list)
+             << " million cubic meters." << endl;
+    } else {
+        cout << "\nNote: The annual average flow cannot be "
+             << "calculated due to lack of data."
+             << endl;
+        cout << "Note: The median annual flow cannot be "
+             << "calculated due to lack of data."
+             << endl;
+    }
+}
+
+// Returns the average flow for the list.
+int Hydro::average(FlowList& flow_list) {
+    double average_flow = 0.0;
+
+    // Determines if flow data exists, and if so, calculates and returns
+    // the average flow.
+    flow_list.reset();
+    if (flow_list.isOn() == true) {
+        int node_count = flow_list.count();
+        double flow_sum = 0.0;
+
+        for (int i = 0; i < node_count; i++) {
+            flow_sum += flow_list.getItem().flow;
+            flow_list.forward();
+        }
+
+        average_flow = flow_sum / node_count;
+    }
+
+    // Convert the result to million cubic meters.
+    return int(average_flow * 1000);
+}
+
+// Returns the median flow for the list.
+int Hydro::median(FlowList& flow_list) {
+    double median_flow = 0.0;
+    int median_node_index = flow_list.count() / 2;
+
+    flow_list.reset();
+
+    // Calculates the median value (average of two middle flows) for
+    // a flow dataset with an even number of nodes, or if the flow
+    // dataset has an odd number of nodes, then the true median is taken
+    // (no average is calculated).
+    if (flow_list.isOn() == true && flow_list.count() % 2 == 0) {
+        for (int i = 0; i <= median_node_index; i++) {
+            if ((i == median_node_index - 1) || (i == median_node_index)) {
+                median_flow += flow_list.getItem().flow;
+            }
+            flow_list.forward();
+        }
+
+        median_flow = median_flow / 2;
+    } else if (flow_list.isOn() == true && flow_list.count() % 2 != 0) {
+        for (int i = 0; i <= median_node_index; i++) {
+            if (i == median_node_index) {
+                median_flow = flow_list.getItem().flow;
+            }
+            flow_list.forward();
+        }
+    }
+
+    // Convert the result to million cubic meters.
+    return int(median_flow * 1000);
 }
 
 // Prompts the user to press enter to continue.

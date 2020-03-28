@@ -40,8 +40,10 @@ const Node *FlowList::cursor() const {
 
 // Moves cursorM to the next Node (if cursorM is not null).
 void FlowList::forward() {
-    if (cursorM != 0) {
+    if (cursorM != 0 && cursorM->next != 0) {
         cursorM = cursorM->next;
+    } else {
+        cursorM = 0;
     }
 }
 
@@ -73,6 +75,8 @@ void FlowList::insert(const ListItem &itemA) {
         new_node->next = after;
         before->next = new_node;
     }
+
+    cursorM = 0;
 }
 
 // Returns the number of nodes in the list.

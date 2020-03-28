@@ -26,10 +26,10 @@ int main() {
                 hydro.display(flow_list);
                 hydro.pressEnter();
                 break;
-                //         case 2:
-                //             // call addData function
-                //             // call pressEnter;
-                //             break;
+            case 2:
+                // call addData function
+                hydro.pressEnter();
+                break;
                 //         case 3:
                 //             // call saveData function;
                 //             // call pressEnter;
