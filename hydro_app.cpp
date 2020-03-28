@@ -27,17 +27,17 @@ int main() {
                 hydro.pressEnter();
                 break;
             case 2:
-                // call addData function
+                hydro.addData(flow_list);
                 hydro.pressEnter();
                 break;
-                //         case 3:
-                //             // call saveData function;
-                //             // call pressEnter;
-                //             break;
-                //         case 4:
-                //             // call removeData
-                //             // call presenter;
-                //             break;
+            case 3:
+                hydro.saveData(flow_list);
+                hydro.pressEnter();
+                break;
+            case 4:
+                hydro.removeData(flow_list);
+                hydro.pressEnter();
+                break;
             case 5:
                 cout << "\nProgram terminated!\n\n";
                 quit = 1;

@@ -24,6 +24,7 @@ class FlowList {
     const Node* cursor() const;          // Returns the Node cursorM points to.
     void forward();                      // Moves cursorM to the next Node (if cursorM is not null).
     void insert(const ListItem& itemA);  // Inserts Node into list.
+    void remove(int target_year);        // Removes a Node from the list.
     int count() const;                   // Returns the number of nodes in the list.
 
    private:

@@ -76,6 +76,44 @@ void FlowList::insert(const ListItem &itemA) {
         before->next = new_node;
     }
 
+    // Set the cursor to NULL (0).
+    cursorM = 0;
+}
+
+// Removes a Node from the list.
+void FlowList::remove(int target_year) {
+    // If list is empty, or item is smaller than first element, do nothing.
+    if (headM == 0)
+        return;
+
+    Node *doomed_node = 0;
+
+    // First checks if the node to removed is the first node.
+    // If not, then iterates through the nodes until the node is found, and
+    // removes it from the linked list.
+    if (target_year == headM->item.year) {
+        doomed_node = headM;
+        headM = headM->next;
+    } else {
+        Node *before = headM;
+        Node *maybe_doomed = headM->next;
+        while (maybe_doomed != 0 && target_year != maybe_doomed->item.year) {
+            before = maybe_doomed;
+            maybe_doomed = maybe_doomed->next;
+        }
+
+        if (maybe_doomed != 0 && maybe_doomed->item.year == target_year) {
+            doomed_node = maybe_doomed;
+            before->next = maybe_doomed->next;
+        }
+    }
+
+    // Delete the removed node.
+    if (doomed_node != 0) {
+        delete doomed_node;
+    }
+
+    // Set the cursor to NULL (0).
     cursorM = 0;
 }
 

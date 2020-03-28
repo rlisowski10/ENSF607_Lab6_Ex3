@@ -51,7 +51,7 @@ int Hydro::readData(FlowList& flow_list) {
 int Hydro::menu() {
     int selection;
 
-    cout << "\n\nPlease select one of the following options:" << endl;
+    cout << "Please select one of the following options:" << endl;
     cout << "   1. Display the flow list, along with average and median values." << endl;
     cout << "   2. Add Data." << endl;
     cout << "   3. Save data into the file." << endl;
@@ -61,12 +61,14 @@ int Hydro::menu() {
     cin >> selection;
     cin.ignore();
 
+    clearScreen();
+
     return selection;
 }
 
 // Displays the flow data and statistics to the user.
 void Hydro::display(FlowList& flow_list) {
-    cout << "\nYear"
+    cout << "Year"
          << "\t\tFlow (in billion cubic meters)" << endl;
 
     flow_list.reset();
@@ -91,6 +93,60 @@ void Hydro::display(FlowList& flow_list) {
         cout << "Note: The median annual flow cannot be "
              << "calculated due to lack of data."
              << endl;
+    }
+}
+
+// Takes input from the user for new flow data.
+void Hydro::addData(FlowList& flow_list) {
+    int year;
+    double flow;
+
+    cout << "Please enter a year: ";
+    cin >> year;
+    cin.ignore();
+
+    cout << "Please enter the flow (in billion cubic meters): ";
+    cin >> flow;
+    cin.ignore();
+
+    // Check whether a record with the user-provided year already exists
+    // in the flow list.
+    bool does_year_exist = doesYearExist(flow_list, year);
+
+    // Create a ListItem with the new data if the year does not
+    // already exist in the list.
+    if (does_year_exist == false) {
+        ListItem new_data;
+        new_data.year = year;
+        new_data.flow = flow;
+
+        flow_list.insert(new_data);
+
+        cout << "New record inserted successfully." << endl;
+    } else {
+        cout << "Error: Duplicate data." << endl;
+    }
+}
+
+// Removes a Node from the list based on user input.
+void Hydro::removeData(FlowList& flow_list) {
+    int year;
+
+    cout << "Please enter the year to remove: ";
+    cin >> year;
+    cin.ignore();
+
+    // Check whether a record with the user-provided year already exists
+    // in the flow list.
+    bool does_year_exist = doesYearExist(flow_list, year);
+
+    // Create a ListItem with the new data if the year does not
+    // already exist in the list.
+    if (does_year_exist == true) {
+        flow_list.remove(year);
+        cout << "Record was successfully removed." << endl;
+    } else {
+        cout << "Error: The specified record does not exist." << endl;
     }
 }
 
@@ -150,8 +206,49 @@ int Hydro::median(FlowList& flow_list) {
     return int(median_flow * 1000);
 }
 
+// Saves the list data to file.
+void Hydro::saveData(FlowList& flow_list) {
+    // Creates an output stream object to write to an external file.
+    ofstream out_obj;
+    out_obj.open("flow.txt");
+
+    // Write all data to file.
+    flow_list.reset();
+    while (flow_list.isOn() == true) {
+        out_obj << flow_list.getItem().year << "      " << fixed
+                << setprecision(2) << flow_list.getItem().flow << endl;
+        flow_list.forward();
+    }
+
+    cout << "Flow data has been saved to file." << endl;
+}
+
 // Prompts the user to press enter to continue.
 void Hydro::pressEnter() {
     cout << "<<< Press Enter to Continue >>>";
     cin.ignore();
+
+    clearScreen();
+}
+
+// Returns a boolean indicating if the year exists in the list.
+bool Hydro::doesYearExist(FlowList& flow_list, int year) {
+    flow_list.reset();
+    bool does_year_exist = false;
+
+    while (flow_list.isOn() == true) {
+        if (flow_list.getItem().year == year) {
+            does_year_exist = true;
+        }
+        flow_list.forward();
+    }
+
+    return does_year_exist;
+}
+
+// Clears the terminal of text.
+void Hydro::clearScreen() {
+    for (int i = 0; i < 100; ++i) {
+        cout << "\n";
+    }
 }
