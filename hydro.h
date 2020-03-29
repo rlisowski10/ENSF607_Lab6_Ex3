@@ -12,12 +12,12 @@ class Hydro {
     void removeData(FlowList& flow_list);  // Removes a Node from the list based on user input.
     int average(FlowList& flow_list);      // Returns the average flow for the list.
     int median(FlowList& flow_list);       // Returns the median flow for the list.
-    void saveData(FlowList& flow_list);// Saves the list data to file.
+    void saveData(FlowList& flow_list);    // Saves the list data to file.
     void pressEnter();                     // Prompts the user to press enter to continue.
    private:
     // Returns a boolean indicating if the year exists in the list.
     bool doesYearExist(FlowList& flow_list, int year);
-    void clearScreen(); // Clears the terminal of text.
+    void clearScreen();  // Clears the terminal of text.
 };
 
 #endif

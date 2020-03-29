@@ -24,6 +24,11 @@ int Hydro::readData(FlowList& flow_list) {
     ifstream in_obj;
     in_obj.open("flow.txt");
 
+    if (!in_obj) {
+        cerr << "Error: The file could not be opened - exiting application." << endl;
+        exit(1);
+    }
+
     int year;
     double flow;
 
@@ -43,6 +48,9 @@ int Hydro::readData(FlowList& flow_list) {
         year = -1;
         flow = -1.0;
     }
+
+    // Close the file input stream.
+    in_obj.close();
 
     return flow_list.count();
 }
@@ -219,6 +227,9 @@ void Hydro::saveData(FlowList& flow_list) {
                 << setprecision(2) << flow_list.getItem().flow << endl;
         flow_list.forward();
     }
+
+    // Close the file output stream.
+    out_obj.close();
 
     cout << "Flow data has been saved to file." << endl;
 }

@@ -1,9 +1,3 @@
-// TODO: Create modules out of classes
-// TODO: Comment files
-// TODO: Implement all cursorM functionality in FlowList
-// TODO: Implement all FlowList functionality
-// TODO: Display an error msg if the input file cannot be read
-
 #include <stdlib.h>
 
 #include <iostream>
@@ -39,7 +33,7 @@ int main() {
                 hydro.pressEnter();
                 break;
             case 5:
-                cout << "\nProgram terminated!\n\n";
+                cout << "\nProgram terminated successfully.\n\n";
                 quit = 1;
                 break;
             default:
@@ -49,30 +43,39 @@ int main() {
         if (quit == 1) break;
     }
 
-    // // Creating a copy of FlowList x called copy1
-    // FlowList copy1;
-    // copy1 = x;
-    // // In the following section call addData to add
-    // // following records (year, flow) to copy1:
-    // // 2012  459.99
-    // // 2013  2000.34
+    // Creating a copy of FlowList x called copy1
+    FlowList copy1;
+    copy1 = flow_list;
+    // In the following section call addData to add
+    // following records (year, flow) to copy1:
+    // 2012  459.99
+    // 2013  2000.34
+    ListItem record_1;
+    record_1.year = 2012;
+    record_1.flow = 459.99;
+    copy1.insert(record_1);
 
-    // // Use the following code to create a copy of copy1 called copy2
-    // // FlowList copy2 = copy1;
+    ListItem record_2;
+    record_2.year = 2013;
+    record_2.flow = 2000.34;
+    copy1.insert(record_2);
 
-    // // removing three records from copy2
-    // copy2.remove(1922);
-    // copy2.remove(2003);
-    // copy2.remove(2001);
+    // Use the following code to create a copy of copy1 called copy2
+    FlowList copy2 = copy1;
 
-    // // Display the values in three list copy 2, copy1, and x
-    // cout << "\n values in copy2 are: ";
-    // display(copy2);
+    // Removing three records from copy2
+    copy2.remove(1922);
+    copy2.remove(2003);
+    copy2.remove(2001);
 
-    // cout << "\n values in copy1 are: ";
-    // display(copy1);
+    // Display the values in three list copy 2, copy1, and x
+    cout << "\n values in copy2 are: " << endl;
+    hydro.display(copy2);
 
-    // cout << "\n values in x are: ";
-    // display(x);
+    cout << "\n values in copy1 are: " << endl;
+    hydro.display(copy1);
+
+    cout << "\n values in x are: " << endl;
+    hydro.display(flow_list);
     return 0;
 }

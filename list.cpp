@@ -10,6 +10,25 @@ FlowList::FlowList() {
     cursorM = 0;
 }
 
+// Copy Constructor
+FlowList::FlowList(const FlowList &source) {
+    copy(source);
+}
+
+// Assignment operator.
+FlowList &FlowList::operator=(const FlowList &rhs) {
+    if (this != &rhs) {
+        destroy();
+        copy(rhs);
+    }
+    return *this;
+}
+
+// Destructor
+FlowList::~FlowList() {
+    destroy();
+}
+
 // Gets the item for the Node that cursorM currently points to.
 const ListItem &FlowList::getItem() const {
     return cursorM->item;
@@ -130,4 +149,64 @@ int FlowList::count() const {
     }
 
     return count;
+}
+
+// Copy Function
+void FlowList::copy(const FlowList &source) {
+    // Initialize the headM node to null.
+    headM = 0;
+
+    // Initialize pointers to the head nodes for both lists.
+    Node *current_node = headM;
+    Node *current_node_to_copy = source.headM;
+
+    // Iterate through the source list, creating new Node objects for the new list
+    // for each Node in the source list.
+    while (current_node_to_copy != 0) {
+        Node *new_node = new Node;
+        new_node->item = current_node_to_copy->item;
+
+        if (headM == 0) {
+            headM = new_node;
+        } else {
+            current_node->next = new_node;
+        }
+
+        // Update cursors to the next nodes for both lists.
+        current_node = new_node;
+        current_node_to_copy = current_node_to_copy->next;
+    }
+
+    // If current_node exists, set the next pointer to NULL (0).
+    if (current_node != 0) {
+        current_node->next = 0;
+    }
+}
+
+// Destroy Function
+void FlowList::destroy() {
+    Node *current_node = headM;
+    Node *next_node = 0;
+
+    // Sets the next_node cursor to the next Node, if it exists.
+    if (headM != 0) {
+        next_node = headM->next;
+    }
+
+    // Iterate through all of the nodes, destroying each in turn.
+    while (current_node != 0) {
+        ListItem deleted_item = current_node->item;
+        delete current_node;
+
+        // Updates the cursors to the next nodes.
+        if (next_node != 0) {
+            current_node = next_node;
+            next_node = next_node->next;
+        } else {
+            current_node = 0;
+        }
+    }
+
+    // Sets the head to NULL (0).
+    headM = 0;
 }

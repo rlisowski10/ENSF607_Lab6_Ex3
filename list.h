@@ -17,19 +17,24 @@ struct Node {
 
 class FlowList {
    public:
-    FlowList();                          // Default constructor
-    const ListItem& getItem() const;     // Returns the item to which cursorM is attached to.
-    void reset();                        // Reset the cursorM node to the start of the list.
-    bool isOn() const;                   // Returns true if cursorM is not pointing to NULL (0).
-    const Node* cursor() const;          // Returns the Node cursorM points to.
-    void forward();                      // Moves cursorM to the next Node (if cursorM is not null).
-    void insert(const ListItem& itemA);  // Inserts Node into list.
-    void remove(int target_year);        // Removes a Node from the list.
-    int count() const;                   // Returns the number of nodes in the list.
+    FlowList();                                // Default constructor
+    FlowList(const FlowList& source);          // Copy constructor
+    FlowList& operator=(const FlowList& rhs);  // Assignment operator.
+    ~FlowList();                               //Destructor
+    const ListItem& getItem() const;           // Returns the item to which cursorM is attached to.
+    void reset();                              // Reset the cursorM node to the start of the list.
+    bool isOn() const;                         // Returns true if cursorM is not pointing to NULL (0).
+    const Node* cursor() const;                // Returns the Node cursorM points to.
+    void forward();                            // Moves cursorM to the next Node (if cursorM is not null).
+    void insert(const ListItem& itemA);        // Inserts Node into list.
+    void remove(int target_year);              // Removes a Node from the list.
+    int count() const;                         // Returns the number of nodes in the list.
 
    private:
-    Node* headM;    // Always points to the first node in the list.
-    Node* cursorM;  // Cursor node pointer.
+    Node* headM;                        // Always points to the first node in the list.
+    Node* cursorM;                      // Cursor node pointer.
+    void copy(const FlowList& source);  // A copy of source is created.
+    void destroy();                     // Deallocate all nodes, set headM to zero.
 };
 
 #endif
